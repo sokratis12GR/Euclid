@@ -1,1 +1,1 @@
-"# Euclid" 
+# Euclid
