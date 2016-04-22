@@ -27,7 +27,7 @@ public class CommandHandler {
         commands.put("help", new CommandHelp());
         commands.put("clear", new CommandClear());
         commands.put("about", new CommandAbout());
-        commands.put("code", new CommandBarCode());
+        commands.put("barcode", new CommandBarCode());
         commands.put("ocr", new CommandReadImage());
     }
     
@@ -99,5 +99,15 @@ public class CommandHandler {
     public static String[] getParameters (String message) {
         
         return message.substring(1).split(" ");
+    }
+    
+    /**
+     * Gets a command with the passed key name.
+     * @param keyName The name of the command to look for.
+     * @return Command The found command, or null if it doesn't exist.
+     */
+    public static Command getCommand (String keyName) {
+        
+        return commands.get(keyName);
     }
 }
