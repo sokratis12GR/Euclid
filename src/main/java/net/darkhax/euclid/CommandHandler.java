@@ -103,6 +103,7 @@ public class CommandHandler {
     
     /**
      * Gets a command with the passed key name.
+     * 
      * @param keyName The name of the command to look for.
      * @return Command The found command, or null if it doesn't exist.
      */

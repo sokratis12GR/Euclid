@@ -1,6 +1,5 @@
 package net.darkhax.euclid;
 
-import net.sourceforge.tess4j.TesseractException;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.EventSubscriber;
 import sx.blah.discord.api.IDiscordClient;
@@ -12,7 +11,7 @@ public class Euclid {
     public static final String COMMAND_KEY = "!";
     public static IDiscordClient instance;
     
-    public static void main (String... args) throws TesseractException {
+    public static void main (String... args)  {
         
         try {
             

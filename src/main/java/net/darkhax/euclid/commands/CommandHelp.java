@@ -28,7 +28,7 @@ public class CommandHelp implements Command {
             for (Entry<String, Command> command : CommandHandler.getCommands().entrySet())
                 if (command.getValue().isValidUsage(message))
                     descriptions += Euclid.COMMAND_KEY + command.getKey() + " - " + command.getValue().getDescription() + SEPERATOR + SEPERATOR;
-            
+                    
         Utilities.sendPrivateMessage(message.getAuthor(), Utilities.makeMultiCodeBlock(descriptions));
     }
     
