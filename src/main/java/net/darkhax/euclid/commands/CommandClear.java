@@ -13,7 +13,8 @@ public class CommandClear implements Command {
     @Override
     public boolean isValidUsage (IMessage message) {
         
-        return true;
+        final String username = message.getAuthor().getName();
+        return (username.equals("Darkhax") || username.equals("lclc98"));
     }
     
     @Override
