@@ -85,7 +85,7 @@ public class CommandHandler {
      */
     public static String getCommandKeyFromMessage (String message) {
         
-        return message.substring(1).split(" ")[0];
+        return message.substring(1).split(" ")[0].toLowerCase();
     }
     
     /**
@@ -109,6 +109,6 @@ public class CommandHandler {
      */
     public static Command getCommand (String keyName) {
         
-        return commands.get(keyName);
+        return commands.get(keyName.toLowerCase());
     }
 }
