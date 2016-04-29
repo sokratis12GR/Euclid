@@ -11,7 +11,7 @@ public class Euclid {
     public static final String COMMAND_KEY = "!";
     public static IDiscordClient instance;
     
-    public static void main (String... args)  {
+    public static void main (String... args) {
         
         try {
             

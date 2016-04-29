@@ -13,9 +13,6 @@ import com.asprise.ocr.Ocr;
 
 import net.darkhax.euclid.util.Utilities;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
-import sx.blah.discord.util.MissingPermissionsException;
 
 public class CommandReadImage implements Command {
     
@@ -26,26 +23,25 @@ public class CommandReadImage implements Command {
         
         for (String arg : args) {
             
-            if (arg.endsWith(".png") || arg.endsWith(".jpg")) {
+            if (arg.endsWith(".png") || arg.endsWith(".PNG") || arg.endsWith(".jpg") || arg.endsWith(".JPG")) {
                 
                 try {
                     
                     BufferedImage image = ImageIO.read(new URL(arg));
-                    makeGray(image);
+                    // makeGray(image);
                     ImageIO.write(image, "png", new File("OCR.png"));
                     
                     Ocr.setUp();
                     Ocr ocr = new Ocr();
-                    ocr.startEngine("eng", Ocr.SPEED_SLOW, "START_PROP_DICT_CUSTOM_DICT_FILE=diction.txt");
+                    ocr.startEngine("eng", Ocr.SPEED_SLOW, "PROP_IMG_PREPROCESS_TYPE=custom|PROP_IMG_PREPROCESS_CUSTOM_CMDS=scale(20)|grayscale()|PROP_DICT_DICT_IMPORTANCE=100|START_PROP_DICT_CUSTOM_DICT_FILE=diction.txt");
                     String s = ocr.recognize(new File[] { new File("OCR.png") }, Ocr.RECOGNIZE_TYPE_TEXT, Ocr.OUTPUT_FORMAT_PLAINTEXT);
                     ocr.stopEngine();
                     
                     Utilities.sendMessage(message.getChannel(), "I am not sure, but I think it says this: " + System.lineSeparator() + Utilities.makeMultiCodeBlock(s));
-                    Utilities.sendMessage(message.getChannel(), "And this is how I see the image.");
-                    message.getChannel().sendFile(new File("OCR.png"));
                 }
                 
-                catch (IOException | MissingPermissionsException | HTTP429Exception | DiscordException e) {
+                catch (IOException e) { // | MissingPermissionsException | HTTP429Exception |
+                                        // DiscordException e) {
                     
                     if (e instanceof IOException && e.toString().contains("Can't get input stream from URL!"))
                         Utilities.sendMessage(message.getChannel(), "It looks like somebody doesn't want me to see that image.");
@@ -54,6 +50,9 @@ public class CommandReadImage implements Command {
                         LOGGER.log(Level.SEVERE, "Exception while writing DataCompound to file.", e);
                 }
             }
+            
+            else if (!arg.equalsIgnoreCase("ocr"))
+                Utilities.sendMessage(message.getChannel(), message.getAuthor().getName() + ", that was not a valid image.");
         }
     }
     

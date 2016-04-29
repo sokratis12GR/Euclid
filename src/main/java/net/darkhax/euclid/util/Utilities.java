@@ -144,26 +144,14 @@ public class Utilities {
         try {
             
             channel.sendMessage(message);
-            Thread.sleep(1000);
         }
-        
-        catch (final MissingPermissionsException e) {
+        catch (MissingPermissionsException | HTTP429Exception | DiscordException e) {
             
-            e.printStackTrace();
-        }
-        
-        catch (final HTTP429Exception e) {
-            
-            e.printStackTrace();
-        }
-        
-        catch (final InterruptedException e) {
-            
-            e.printStackTrace();
-        }
-        catch (final DiscordException e) {
-            
-            e.printStackTrace();
+            if (e instanceof DiscordException && e.toString().contains("String value is too long"))
+                sendMessage(channel, "I tried to send a message, but it was too long.");
+                
+            else
+                e.printStackTrace();
         }
     }
     
