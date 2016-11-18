@@ -5,8 +5,6 @@ import sx.blah.discord.handle.obj.IMessage;
 
 public interface Command {
     
-    public static final String SEPERATOR = System.lineSeparator();
-    
     /**
      * Checks if a command is valid. If not, it will not be executed.
      * 

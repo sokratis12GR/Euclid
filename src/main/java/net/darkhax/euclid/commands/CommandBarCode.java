@@ -23,8 +23,8 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class CommandBarCode implements Command {
     
@@ -35,8 +35,7 @@ public class CommandBarCode implements Command {
         Color background = Color.white;
         Color foreground = Color.black;
         
-        for (String arg : Arrays.copyOfRange(params, 2, params.length)) {
-            
+        for (final String arg : Arrays.copyOfRange(params, 2, params.length))
             if (arg.startsWith("background=")) {
                 
                 final String text = arg.substring(11);
@@ -54,11 +53,10 @@ public class CommandBarCode implements Command {
             }
             
             else
-                data += (" " + arg);
-        }
-        
+                data += " " + arg;
+            
         if (params[1].equalsIgnoreCase("QR"))
-            generate(message.getChannel(), data, 250, "qr.png", "png", background, foreground);
+            this.generate(message.getChannel(), data, 250, "qr.png", "png", background, foreground);
     }
     
     @Override
@@ -73,18 +71,18 @@ public class CommandBarCode implements Command {
             
             final File file = new File(fileName);
             
-            Map<EncodeHintType, Object> hintMap = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+            final Map<EncodeHintType, Object> hintMap = new EnumMap<>(EncodeHintType.class);
             hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
             hintMap.put(EncodeHintType.MARGIN, 1);
             hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
             
-            QRCodeWriter qrWriter = new QRCodeWriter();
-            BitMatrix byteMatrix = qrWriter.encode(message, BarcodeFormat.QR_CODE, size, size, hintMap);
-            int matrixWidth = byteMatrix.getWidth();
-            BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
+            final QRCodeWriter qrWriter = new QRCodeWriter();
+            final BitMatrix byteMatrix = qrWriter.encode(message, BarcodeFormat.QR_CODE, size, size, hintMap);
+            final int matrixWidth = byteMatrix.getWidth();
+            final BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
             image.createGraphics();
             
-            Graphics2D graphics = (Graphics2D) image.getGraphics();
+            final Graphics2D graphics = (Graphics2D) image.getGraphics();
             graphics.setColor(background);
             graphics.fillRect(0, 0, matrixWidth, matrixWidth);
             graphics.setColor(foreground);
@@ -93,14 +91,14 @@ public class CommandBarCode implements Command {
                 for (int pixelY = 0; pixelY < matrixWidth; pixelY++)
                     if (byteMatrix.get(pixelX, pixelY))
                         graphics.fillRect(pixelX, pixelY, 1, 1);
-                        
+                    
             ImageIO.write(image, fileType, file);
             
             if (file.exists())
                 channel.sendFile(file);
         }
         
-        catch (WriterException | IOException | MissingPermissionsException | HTTP429Exception | DiscordException exception) {
+        catch (WriterException | IOException | MissingPermissionsException | DiscordException | RateLimitException exception) {
             
             exception.printStackTrace();
         }

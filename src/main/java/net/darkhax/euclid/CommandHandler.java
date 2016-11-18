@@ -6,9 +6,9 @@ import java.util.Map;
 import net.darkhax.euclid.commands.Command;
 import net.darkhax.euclid.commands.CommandAbout;
 import net.darkhax.euclid.commands.CommandBarCode;
-import net.darkhax.euclid.commands.CommandClear;
 import net.darkhax.euclid.commands.CommandHelp;
-import net.darkhax.euclid.commands.CommandReadImage;
+import net.darkhax.euclid.commands.CommandMemberCount;
+import net.darkhax.euclid.commands.CommandReload;
 import net.darkhax.euclid.util.Utilities;
 import sx.blah.discord.handle.obj.IMessage;
 
@@ -17,18 +17,19 @@ public class CommandHandler {
     /**
      * A Map containing all registered commands and their keys.
      */
-    private static Map<String, Command> commands = new HashMap<String, Command>();
+    private static Map<String, Command> commands = new HashMap<>();
     
     /**
      * A registry message used to initialize all of the commands, and register them.
      */
     public static void initCommands () {
         
+        commands.clear();
         commands.put("help", new CommandHelp());
-        commands.put("clear", new CommandClear());
         commands.put("about", new CommandAbout());
         commands.put("barcode", new CommandBarCode());
-        commands.put("ocr", new CommandReadImage());
+        commands.put("reload", new CommandReload());
+        commands.put("members", new CommandMemberCount());
     }
     
     /**
@@ -66,7 +67,7 @@ public class CommandHandler {
         
         if (command == null)
             Utilities.sendMessage(message.getChannel(), "No command was found by that name. " + key);
-            
+        
         if (!command.isValidUsage(message)) {
             
             Utilities.sendPrivateMessage(message.getAuthor(), "You do not have permission to use the " + key + " command. Please try again, or look into getting elevated permissions.");

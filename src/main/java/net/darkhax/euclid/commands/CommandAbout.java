@@ -8,7 +8,8 @@ public class CommandAbout implements Command {
     @Override
     public void proccessCommand (IMessage message, String[] args) {
         
-        Utilities.sendPrivateMessage(message.getAuthor(), "Hello! I am Euclid. I am a discord chat bot written by Darkhax. My primary directive is to provide an interface to some of the random projects that Darkhax is working on." + Utilities.makeMultiCodeBlock("Java Version: " + System.getProperty("java.version") + SEPERATOR + "OS Name: " + System.getProperty("os.name") + SEPERATOR + "Country: " + System.getProperty("user.country") + SEPERATOR + "Author: Darkhax" + SEPERATOR + "Birth Date: 2016-01-26"));
+        final String about = Utilities.makeMultiCodeBlock(Utilities.makeMultilineMessage(String.format("Java Version: %s", System.getProperty("java.version")), String.format("OS: %s", System.getProperty("os.name")), String.format("Country: %s", System.getProperty("user.country")), "Owner: Darkhax", "Birth Date: 2016-01-26", "Source: https://github.com/darkhax/Euclid"));
+        Utilities.sendPrivateMessage(message.getAuthor(), "Hello! I am Euclid. My primary derective is to serve as an interface for some of the projects my author is working on. The following is a list of my specifications." + about);
     }
     
     @Override

@@ -14,21 +14,19 @@ public class CommandHelp implements Command {
         
         String descriptions = "";
         
-        if (args.length > 1) {
+        if (args.length > 1)
             for (int index = 1; index < args.length; index++) {
                 
-                Command cmd = CommandHandler.getCommand(args[index]);
+                final Command cmd = CommandHandler.getCommand(args[index]);
                 
                 if (cmd != null && cmd.isValidUsage(message))
-                    descriptions += Euclid.COMMAND_KEY + args[index] + " - " + cmd.getThoroughDescription() + SEPERATOR + SEPERATOR;
+                    descriptions += Euclid.COMMAND_KEY + args[index] + " - " + cmd.getThoroughDescription() + Utilities.SEPERATOR + Utilities.SEPERATOR;
             }
-        }
-        
         else
-            for (Entry<String, Command> command : CommandHandler.getCommands().entrySet())
+            for (final Entry<String, Command> command : CommandHandler.getCommands().entrySet())
                 if (command.getValue().isValidUsage(message))
-                    descriptions += Euclid.COMMAND_KEY + command.getKey() + " - " + command.getValue().getDescription() + SEPERATOR + SEPERATOR;
-                    
+                    descriptions += Euclid.COMMAND_KEY + command.getKey() + " - " + command.getValue().getDescription() + Utilities.SEPERATOR + Utilities.SEPERATOR;
+                
         Utilities.sendPrivateMessage(message.getAuthor(), Utilities.makeMultiCodeBlock(descriptions));
     }
     

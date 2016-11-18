@@ -2,7 +2,6 @@ package net.darkhax.euclid.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
@@ -11,25 +10,26 @@ import net.darkhax.euclid.Euclid;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class Utilities {
+    
+    public static final String SEPERATOR = System.lineSeparator();
     
     public static File downloadFile (String site) {
         
         final File file = new File("Image.png");
+        
         try {
+            
             FileUtils.copyURLToFile(new URL(site), file);
         }
-        catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
+        catch (final IOException e) {
+            
             e.printStackTrace();
         }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        
         return file;
     }
     
@@ -101,6 +101,22 @@ public class Utilities {
     }
     
     /**
+     * Makes a string which represents multiple lines of text.
+     * 
+     * @param lines The lines of text to display. Each entry is a new line.
+     * @return A string which has been split up.
+     */
+    public static String makeMultilineMessage (String... lines) {
+        
+        String text = "";
+        
+        for (final String line : lines)
+            text += line + SEPERATOR;
+        
+        return text;
+    }
+    
+    /**
      * Makes a String message appear in a multi-lined code block. This only applies to chat.
      * 
      * @param message The message to format.
@@ -145,17 +161,14 @@ public class Utilities {
             
             channel.sendMessage(message);
         }
-        catch (MissingPermissionsException | HTTP429Exception | DiscordException e) {
+        
+        catch (MissingPermissionsException | DiscordException | RateLimitException e) {
             
             if (e instanceof DiscordException && e.toString().contains("String value is too long"))
                 sendMessage(channel, "I tried to send a message, but it was too long.");
-                
+            
             else
                 e.printStackTrace();
         }
-    }
-    
-    public static void getUserFromName () {
-    
     }
 }

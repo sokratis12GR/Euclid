@@ -21,16 +21,16 @@ group 'Euclid'
 repositories {
 
     jcenter()
+    
     maven {
+    
         url 'https://jitpack.io'
     }
 }
 
 dependencies {
 
-    compile 'com.github.austinv11:Discord4j:2.4.4'
+    compile 'com.github.austinv11:Discord4j:2.6.1'
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.zxing:core:3.2.1'
-    compile group: 'com.asprise.ocr', name: 'java-ocr-api', version: '[15,)'
-
 }

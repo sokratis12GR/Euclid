@@ -68,7 +68,7 @@ public class NamedRegistry<V> implements Iterable<V> {
         
         if (this.registry.containsKey(name))
             System.out.println("The name " + name + " is already in use.");
-            
+        
         this.valueCache = null;
         this.registry.put(name, value);
         return value;
@@ -103,7 +103,7 @@ public class NamedRegistry<V> implements Iterable<V> {
      */
     public List<V> getValues (String domain) {
         
-        final List<V> values = new ArrayList<V>();
+        final List<V> values = new ArrayList<>();
         this.registry.entrySet().stream().filter(pair -> pair.getKey().startsWith(domain + ":")).forEach(pair -> values.add(pair.getValue()));
         return values;
     }
@@ -119,7 +119,7 @@ public class NamedRegistry<V> implements Iterable<V> {
         
         if (this.valueCache == null)
             this.valueCache = (V[]) this.registry.values().toArray();
-            
+        
         return this.valueCache;
     }
     
@@ -170,6 +170,14 @@ public class NamedRegistry<V> implements Iterable<V> {
         
         final V[] values = this.getValues();
         return values.length == 0 ? null : (V) values[random.nextInt(values.length)];
+    }
+    
+    /**
+     * Clears the entire registry.
+     */
+    public void clear () {
+        
+        this.registry.clear();
     }
     
     @Override
